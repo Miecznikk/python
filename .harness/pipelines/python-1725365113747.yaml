@@ -29,20 +29,19 @@ pipeline:
                   timeout: ""
                   type: Run
               - step:
-                  type: Run
-                  identifier: build_python_app
-                  name: Build Python App
-                  spec:
-                    shell: Sh
-                    command: |-
-                      echo "Welcome to Harness CI"
-                      python -m pip install --upgrade pip
-                      pip install  pytest
-                      if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+                  name: run-commands-container
+                  identifier: runcommandscontainer
+                  template:
+                    templateRef: testtemplate
+                    templateInputs:
+                      type: Run
+                      spec:
+                        connectorRef: <+input>
+                        command: <+input>
           platform:
-            arch: Amd64
             os: Linux
+            arch: Amd64
           runtime:
-            spec: {}
             type: Cloud
+            spec: {}
         type: CI
